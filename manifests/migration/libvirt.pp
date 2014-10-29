@@ -13,9 +13,14 @@
 #   Valid options are none and sasl.
 #   Defaults to 'none'
 #
+# [*override_uuid*]
+#   (optional) Set uuid not equal to output from dmidecode (boolean)
+#   Defaults to false
+#
 class nova::migration::libvirt(
-  $use_tls = false,
-  $auth    = 'none',
+  $use_tls              = false,
+  $auth                 = 'none',
+  $override_uuid        = false,
 ){
   if $use_tls {
     $listen_tls = '1'
@@ -31,6 +36,26 @@ class nova::migration::libvirt(
   validate_re($auth, [ '^sasl$', '^none$' ], 'Valid options for auth are none and sasl.')
 
   Package['libvirt'] -> File_line<| path == '/etc/libvirt/libvirtd.conf' |>
+
+  if $override_uuid {
+    if ! $::libvirt_uuid {
+      $host_uuid = generate('/bin/cat', '/proc/sys/kernel/random/uuid')
+      file { '/etc/libvirt/libvirt_uuid':
+        content => $host_uuid
+      }
+    } else {
+      $host_uuid = $::libvirt_uuid
+    }
+
+    augeas { 'libvirt-conf-uuid':
+      context => '/files/etc/libvirt/libvirtd.conf',
+      changes => [
+        "set host_uuid ${host_uuid}",
+      ],
+      notify  => Service['libvirt'],
+      require => Package['libvirt'],
+    }
+  }
 
   case $::osfamily {
     'RedHat': {
