@@ -115,7 +115,12 @@ class nova::quota(
   $quota_max_injected_files = undef,
   $quota_injected_file_path_bytes = undef,
   $quota_max_injected_file_content_bytes = undef,
-  $quota_max_injected_file_path_bytes = undef
+  $quota_max_injected_file_path_bytes = undef,
+  # 9-Kilo Dummy Params
+  $sync_db_api = undef,
+  $fping_path  = undef,
+  $api_paste_config = undef,
+  $default_floating_pool,
 ) {
 
   if $quota_volumes {

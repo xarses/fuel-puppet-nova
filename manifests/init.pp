@@ -326,6 +326,14 @@ class nova(
   # DEPRECATED PARAMETERS
   $mysql_module                       = undef,
   $os_region_name                     = undef,
+  # 9-Kilo dummy params
+  $cinder_catalog_info      = undef,
+  $use_stderr               = undef,
+  $kombu_recconnect_deplay  = undef,
+  $api_database_connection  = undef,
+  $databse_max_pool_size    = undef,
+  $database_max_retries     = undef,
+  $database_max_overflow    = undef,
 ) inherits nova::params {
 
   # maintain backward compatibility

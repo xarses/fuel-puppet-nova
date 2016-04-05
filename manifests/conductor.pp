@@ -25,6 +25,8 @@ class nova::conductor(
   $manage_service = true,
   $ensure_package = 'present',
   $workers        = undef,
+  # 9-Kilo dummy params
+  $use_local      = undef,
 ) {
 
   include ::nova::db
