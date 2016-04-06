@@ -137,9 +137,20 @@ class nova::compute (
   $internal_service_availability_zone = 'internal',
   $heal_instance_info_cache_interval  = '60',
   $pci_passthrough                    = undef,
+  # 9-Kilo hackin
+  $vcpu_pin_set  = undef,
+  $config_drive_format = 'vfat',
+  $allow_resize_to_same_host
 ) {
 
   include ::nova::params
+
+  #9-Kilo mixins
+  nova_config {
+    'DEFAULT/vcpu_pin_set' :              value => join(any2array($vcpu_pin_set), ',');
+    'DEFAULT/allow_resize_to_same_host':  value => $allow_resize_to_same_host;
+    'DEFAULT/config_drive_format':        value => $config_drive_format;
+  }
 
   nova_config {
     'DEFAULT/reserved_host_memory_mb':           value => $reserved_host_memory;
