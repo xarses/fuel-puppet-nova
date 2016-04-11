@@ -83,6 +83,9 @@ class nova::network(
   $install_service   = true,
   $allowed_start     = undef,
   $allowed_end       = undef,
+  # 9-kilo dummies
+  $dns1 = undef,
+  $dns2 = undef,
 ) {
 
   include ::nova::params

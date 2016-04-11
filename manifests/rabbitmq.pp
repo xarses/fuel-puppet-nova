@@ -45,7 +45,8 @@ class nova::rabbitmq(
   $cluster_disk_nodes = false,
   $enabled            = true,
   # DEPRECATED PARAMETER
-  $rabbitmq_class     = 'rabbitmq::server'
+  #$rabbitmq_class     = 'rabbitmq::server' #9-kilo
+  $rabbitmq_class = false,
 ) {
 
   if ($enabled) {
